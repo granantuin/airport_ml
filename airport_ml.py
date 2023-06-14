@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_absolute_error
-from IPython.display import display
+
 
 
 warnings.filterwarnings("ignore")
