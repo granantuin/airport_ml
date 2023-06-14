@@ -194,10 +194,10 @@ best_ml = []
 best_wrf = []
 
 # Set the directory you want to list algorithms filenames from
-algo_dir = "airport_ml/"+OACI+"/algorithms/"
+algo_dir = "/LECO/algorithms/"
 
 #get meteorological model from algorithm file. Select "coor" key to get coordinates. Pick up first algorithm all same coordinates
-meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+"dir_"+OACI+"_d0.al","rb"))["coor"])
+#meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+"dir_"+LECO+"_d0.al","rb"))["coor"])
 
 #add time variables
 meteo_model["hour"] = meteo_model.index.hour
