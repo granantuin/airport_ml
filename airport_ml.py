@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1CzF6uNO6u6v5ZC4BPCdYFW0P-ob-MXu6
 """
 
-!pip install -r "/content/drive/MyDrive/Colab Notebooks/LEVX_1km/requirements.txt"
+#!pip install -r "/content/drive/MyDrive/Colab Notebooks/LEVX_1km/requirements.txt"
 
 #@title Operational
 import streamlit as st
