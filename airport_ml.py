@@ -934,7 +934,7 @@ ax.grid(True, which = "both", axis = "both")
 st.pyplot(fig)
 
 #global results
-st.write("#### **Global results**")
+st.write("#### **Global results airport:**"+OACI)
 st.write("Better meteorological model outcome: {}".format(score_wrf))
 st.write(best_wrf)
 st.write("Better machine learning outcome: {}".format(score_ml))
