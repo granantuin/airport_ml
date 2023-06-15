@@ -264,8 +264,6 @@ if acc_ml<acc_wrf:
   best_wrf.append("wind direction")
 
 #Show results
-#print(" #### **Wind direction**")
-
 fig, ax = plt.subplots(figsize=(10,6))
 plt.plot(df_res_dropna.index, df_res_dropna['dir_ml'], marker="^", markersize=8,
          markerfacecolor='w', color="b", linestyle='')
@@ -349,8 +347,6 @@ if mae_ml > mae_wrf:
   best_wrf.append("wind speed")
 
 #show results actual versus models
-#print(" ### **Wind intensity knots**")
-
 fig, ax = plt.subplots(figsize=(8,6))
 df_res.dropna().plot(grid = True, ax=ax, linestyle='--', color = ["r","b","g"]);
 # score references met model and machine learning
@@ -358,8 +354,6 @@ ref_met0 = alg["score"]["MAE_met"]
 ref_ml0 = alg["score"]["MAE_ml"]
 ref_met1 = alg1["score"]["MAE_met"]
 ref_ml1 = alg1["score"]["MAE_ml"]
-
-#plt.title("Actual accuracy meteorological model: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%}\nActual accuracy machine learning: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%} ".format(acc_wrf,ref_met0,ref_met1,acc_ml,ref_ml0,ref_ml1))
 title = "Actual mean absolute error meteorological model (kt): {}. Reference (D0) (m/s): {}. Reference (m/s) (D1): {}\nActual mean absolute error machine learning (kt): {}. Reference (D0) (m/s): {}.Reference (D1) (m/s): {}".format(mae_wrf,ref_met0,ref_met1,mae_ml,ref_ml0,ref_ml1)
 ax.set_title(title)
 ax.grid(True, which = "both", axis = "both")
