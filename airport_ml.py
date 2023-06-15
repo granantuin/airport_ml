@@ -199,7 +199,7 @@ algo_dir = "LECO/algorithms/"
 #get meteorological model from algorithm file. Select "coor" key to get coordinates. Pick up first algorithm all same coordinates
 #meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+"dir_"+"LECO"+"_d0.al","rb"))["coor"])
 #meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
-meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open("LECO/algorithms/pres_LECO_d0.al","rb"))["coor"])
+meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open("/LECO/algorithms/pres_LECO_d0.al","rb"))["coor"])
 #LECO/algorithms/dir_LECO_d0.al
 
 #add time variables
