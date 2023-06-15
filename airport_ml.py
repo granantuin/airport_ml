@@ -758,15 +758,12 @@ acc_ml = round(accuracy_score(df_res_dropna.skyl1_l,df_res_dropna.skyl1_ml),2)
 cm_ml = pd.crosstab(df_res.dropna().skyl1_l, df_res.dropna().skyl1_ml, margins=True,)
 
 #show results
-print("  ### **Cloud height level 1**")
-
-
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #plt.show(fig)
-st.pyplot(fig)
+st.pyplot(fig1)
 
 fig, ax = plt.subplots(figsize=(10,6))
 plt.plot(df_res_dropna.index, df_res_dropna['skyl1_ml'], marker="^", markersize=8,
