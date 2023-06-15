@@ -212,8 +212,8 @@ metars = get_metar(OACI,con)
 st.markdown(" ### **Metars**")
 AgGrid(metars[["metar_o","dir_o","spd_o","gust_o","visibility_o","wxcodes_o","skyc1_o","skyl1_o","skyc2_o","skyl2_o","temp_o","tempd_o","mslp_o"]])
 
-
-
+#@title Wind direction
+st.markdown(" #### **Wind direction**")
 #open algorithm dir d0 d1
 alg = pickle.load(open(algo_dir+"dir_"+OACI+"_d0.al","rb"))
 alg1 = pickle.load(open(algo_dir+"dir_"+OACI+"_d1.al","rb"))
@@ -265,7 +265,7 @@ if acc_ml<acc_wrf:
 
 #Show results
 #print(" #### **Wind direction**")
-st.markdown(" #### **Wind direction**")
+
 fig, ax = plt.subplots(figsize=(10,6))
 plt.plot(df_res_dropna.index, df_res_dropna['dir_ml'], marker="^", markersize=8,
          markerfacecolor='w', color="b", linestyle='')
@@ -315,7 +315,7 @@ plt.title('Probabilities wind direction more than 5%')
 st.pyplot(fig1)
 
 #@title Wind intensity
-
+st.markdown(" ### **Wind intensity knots**")
 #open algorithm spd d0 d1
 alg = pickle.load(open(algo_dir+"spd_"+OACI+"_d0.al","rb"))
 alg1 = pickle.load(open(algo_dir+"spd_"+OACI+"_d1.al","rb"))
@@ -350,7 +350,7 @@ if mae_ml > mae_wrf:
 
 #show results actual versus models
 #print(" ### **Wind intensity knots**")
-st.markdown(" ### **Wind intensity knots**")
+
 fig, ax = plt.subplots(figsize=(8,6))
 df_res.dropna().plot(grid = True, ax=ax, linestyle='--', color = ["r","b","g"]);
 # score references met model and machine learning
@@ -371,11 +371,12 @@ fig, ax = plt.subplots(figsize=(8,6))
 df_for.plot(grid=True, ax=ax, color= ["r","b"],linestyle='--')
 ax.set_title("Forecast meteorological model versus machine learning")
 ax.grid(True, which = "both", axis = "both")
-#plt.show(fig1)
-st.pyplot(fig1)
+#plt.show(fig)
+st.pyplot(fig)
 
 #@title BR or FG
-#open algorithm prec d0 d1
+st.markdown(" ### **BR or FG**")
+#open algorithm brfg d0 d1
 alg = pickle.load(open(algo_dir+"brfg_"+OACI+"_d0.al","rb"))
 alg1 = pickle.load(open(algo_dir+"brfg_"+OACI+"_d1.al","rb"))
 
@@ -410,7 +411,7 @@ HSS_ml = Hss(cm_ml)
 
 #show results
 print(" ### **BR or FG**")
-st.markdown(" ### **BR or FG**")
+
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
@@ -448,6 +449,7 @@ df_prob["BR/FG"].plot(ax = ax, grid = True, ylim =[0, 1], title = "BR or FG prob
 st.pyplot(fig)
 
 #@title Precipitation
+st.markdown(" ### **Precipitation**")
 #open algorithm prec d0 d1
 alg = pickle.load(open(algo_dir+"prec_"+OACI+"_d0.al","rb"))
 alg1 = pickle.load(open(algo_dir+"prec_"+OACI+"_d1.al","rb"))
@@ -499,7 +501,6 @@ if acc_ml<acc_wrf:
 
 #show results
 print(" ### **Precipitation**")
-st.markdown(" ### **Precipitation**")
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
@@ -552,7 +553,7 @@ st.pyplot(fig)
 
 
 #@title Visibility
-
+st.markdown(" ### **Horizontal visibility**")
 #open algorithm visibility d0 d1
 #alg = pickle.load(open("algorithms/vis_LEVX_1km_time_d0_p.al","rb")) #_p for a plus algorithm
 alg = pickle.load(open(algo_dir+"vis_"+OACI+"_d0.al","rb"))
@@ -600,7 +601,7 @@ if acc_ml<acc_wrf:
 
 #show results
 print(" ### **Horizontal visibility**")
-st.markdown(" ### **Horizontal visibility**")
+
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
@@ -652,7 +653,7 @@ df_prob["<=1000m"].plot(ax=ax, grid=True, ylim =[0, 1], title="Horizontal visibi
 st.pyplot(fig)
 
 #@title Cloud cover
-
+st.markdown(" ### **Cloud cover level 1**")
 
 #open algorithm skyc1 d0 d1
 alg = pickle.load(open(algo_dir+"skyc1_"+OACI+"_d0.al","rb"))
@@ -680,14 +681,12 @@ acc_ml = round(accuracy_score(df_res_dropna.skyc1_o,df_res_dropna.skyc1_ml),2)
 cm_ml = pd.crosstab(df_res.dropna().skyc1_o, df_res.dropna().skyc1_ml, margins=True,)
 
 #show results
-print("  ### **Cloud cover level 1**")
-st.markdown(" ### **Cloud cover level 1**")
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #plt.show(fig)
-st.pyplot(fig)
+st.pyplot(fig1)
 
 fig, ax = plt.subplots(figsize=(10,6))
 plt.plot(df_res_dropna.index, df_res_dropna['skyc1_ml'], marker="^", markersize=8,
@@ -727,7 +726,7 @@ plt.title('Sky cloud cover probabilities')
 st.pyplot(fig1)
 
 #@title Cloud height level1
-
+st.markdown(" ### **Cloud height level 1**")
 
 #open algorithm skyc1 d0 d1
 alg = pickle.load(open(algo_dir+"skyl1_"+OACI+"_d0.al","rb"))
@@ -766,7 +765,7 @@ cm_ml = pd.crosstab(df_res.dropna().skyl1_l, df_res.dropna().skyl1_ml, margins=T
 
 #show results
 print("  ### **Cloud height level 1**")
-st.markdown(" ### **Cloud height level 1**")
+
 
 fig1, ax = plt.subplots(figsize=(4,2))
 sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
