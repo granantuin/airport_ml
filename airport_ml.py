@@ -179,7 +179,7 @@ def get_meteogalicia_model_4Km(coorde):
     return dffinal , control
 
 
-options = ["LECO", "LEST"]
+options = ["LECO", "LEST", "LEBL"]
 default_option = options[0]  # Set the default option
 
 # Create a radio button to select the string variable
