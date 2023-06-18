@@ -272,10 +272,10 @@ algo_dir = OACI+"/algorithms/"
 #get meteorological model from algorithm file. Select "coor" key to get coordinates. Pick up first algorithm all same coordinates
 
 #grid type
-4k = ["LECO","LEST"]
-12k = ["LEBL"]
+k4 = ["LECO","LEST"]
+k12 = ["LEBL"]
 
-if OACI in 4k:
+if OACI in k4:
     meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
 else:
     meteo_model,con = get_meteogalicia_model_12Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
