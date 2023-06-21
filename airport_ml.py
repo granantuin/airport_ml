@@ -702,104 +702,108 @@ st.pyplot(fig)
 
 
 #@title Visibility
-st.markdown(" ### **Horizontal visibility**")
-#open algorithm visibility d0 d1
-#alg = pickle.load(open("algorithms/vis_LEVX_1km_time_d0_p.al","rb")) #_p for a plus algorithm
-alg = pickle.load(open(algo_dir+"vis_"+OACI+"_d0.al","rb"))
-alg1 = pickle.load(open(algo_dir+"vis_"+OACI+"_d1.al","rb"))
-
-#select model variables
-model_x_var = meteo_model[:24][alg["x_var"]]
-model_x_var1 = meteo_model[24:48][alg1["x_var"]]
-
-# forecat vis from ml
-vis_ml = alg["pipe"].predict(model_x_var)
-vis_ml1 = alg1["pipe"].predict(model_x_var1)
-
-#label metars vis data
-metars["vis_o_l"] = ["<=1000m" if c<=1000 else ">1000m" for c in metars.visibility_o]
-
-#label meteorological model visibility0
-visibility0_l= ["<=1000m" if c<=1000 else ">1000m" for c in np.concatenate((model_x_var["visibility0"],model_x_var1["visibility0"]), axis=0)]
-
-#set up dataframe forecast machine learning
-df_for = pd.DataFrame({"time":meteo_model[:48].index,
-                       "vis_WRF": visibility0_l,
-                       "vis_ml": np.concatenate((vis_ml,vis_ml1),axis =0),})
-df_for = df_for.set_index("time")
-
-# concat metars an forecast
-df_res = pd.concat([df_for,metars["vis_o_l"]], axis = 1)
-df_res_dropna = df_res.dropna()
-
-#Heidke skill score ml
-cm_ml = pd.crosstab(df_res.dropna().vis_o_l, df_res.dropna().vis_ml, margins=True,)
-acc_ml = round(accuracy_score(df_res_dropna.vis_o_l,df_res_dropna.vis_ml),2)
-HSS_ml = Hss(cm_ml)
-
-#Heidke skill score meteorological model
-cm_wrf = pd.crosstab(df_res.dropna().vis_o_l, df_res.dropna().vis_WRF, margins=True,)
-acc_wrf = round(accuracy_score(df_res_dropna.vis_o_l,df_res_dropna.vis_WRF),2)
-HSS_wrf = Hss(cm_wrf)
-if acc_ml>acc_wrf:
-  score_ml+=1
-  best_ml.append("visibility")
-if acc_ml<acc_wrf:
-  score_wrf+=1
-  best_wrf.append("visibility")
-
-#show results
-print(" ### **Horizontal visibility**")
-
-fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',)
-plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
-#plt.show(fig1)
-st.pyplot(fig1)
-
-fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_wrf, annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',)
-plt.title("Confusion matrix\nAccuracy meteorologic model: {:.0%}".format(acc_wrf))
-#plt.show(fig1)
-st.pyplot(fig1)
-
-fig, ax = plt.subplots(figsize=(10,4))
-plt.plot(df_res_dropna.index, df_res_dropna['vis_ml'],marker="^", markersize=8,
-         markerfacecolor='w', color="b",linestyle='');
-plt.plot(df_res_dropna.index, df_res_dropna['vis_o_l'],marker="*",markersize=8,
-         markerfacecolor='w', color="g",linestyle='');
-plt.plot(df_res_dropna.index, df_res_dropna['vis_WRF'],marker="v",markersize=8,
-         markerfacecolor='w',color="r", linestyle='');
-plt.legend(('vis ml', 'vis observed',"vis WRF"),)
-plt.grid(True, axis="both")
-ref_ml0 = round(alg["score"]["HSS_ml"],2)
-ref_ml1 = round(alg1["score"]["HSS_ml"],2)
-ref_met0 = round(alg["score"]["HSS_met"],2)
-ref_met1 = round(alg1["score"]["HSS_met"],2)
-plt.title("Actual Heidke skill score meteorological model: {}. Reference (D0): {}. Reference (D1): {}\nActual Heidke skill score machine learning: {}. Reference (D0): {}. Reference (D1): {}".format(HSS_wrf,ref_met0,ref_met1,HSS_ml,ref_ml0,ref_ml1))
-#plt.show(fig)
-st.pyplot(fig)
-
-fig, ax = plt.subplots(figsize=(10,4))
-plt.plot(df_for.index, df_for['vis_ml'],marker="^", markersize=8,
-         markerfacecolor='w', color="b",linestyle='');
-plt.plot(df_for.index, df_for['vis_WRF'],marker="v",markersize=8,
-         markerfacecolor='w', color="r",linestyle='');
-plt.title("Forecast machine learning")
-plt.grid(True,axis="both")
-#plt.show(fig)
-st.pyplot(fig)
-
-#show probabilistic results
-prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
-df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index.map(lambda t: t.strftime('%d-%m %H'))))
-fig, ax = plt.subplots(figsize=(10,8))
-df_prob["<=1000m"] =df_prob["<=1000m"].round(1)
-df_prob["<=1000m"].plot(ax=ax, grid=True, ylim =[0, 1], title="Horizontal visibility below 1000 meters probability", kind='bar')
-#plt.show(fig)
-st.pyplot(fig)
+try:
+    st.markdown(" ### **Horizontal visibility**")
+    #open algorithm visibility d0 d1
+    #alg = pickle.load(open("algorithms/vis_LEVX_1km_time_d0_p.al","rb")) #_p for a plus algorithm
+    alg = pickle.load(open(algo_dir+"vis_"+OACI+"_d0.al","rb"))
+    alg1 = pickle.load(open(algo_dir+"vis_"+OACI+"_d1.al","rb"))
+    
+    #select model variables
+    model_x_var = meteo_model[:24][alg["x_var"]]
+    model_x_var1 = meteo_model[24:48][alg1["x_var"]]
+    
+    # forecat vis from ml
+    vis_ml = alg["pipe"].predict(model_x_var)
+    vis_ml1 = alg1["pipe"].predict(model_x_var1)
+    
+    #label metars vis data
+    metars["vis_o_l"] = ["<=1000m" if c<=1000 else ">1000m" for c in metars.visibility_o]
+    
+    #label meteorological model visibility0
+    visibility0_l= ["<=1000m" if c<=1000 else ">1000m" for c in np.concatenate((model_x_var["visibility0"],model_x_var1["visibility0"]), axis=0)]
+    
+    #set up dataframe forecast machine learning
+    df_for = pd.DataFrame({"time":meteo_model[:48].index,
+                           "vis_WRF": visibility0_l,
+                           "vis_ml": np.concatenate((vis_ml,vis_ml1),axis =0),})
+    df_for = df_for.set_index("time")
+    
+    # concat metars an forecast
+    df_res = pd.concat([df_for,metars["vis_o_l"]], axis = 1)
+    df_res_dropna = df_res.dropna()
+    
+    #Heidke skill score ml
+    cm_ml = pd.crosstab(df_res.dropna().vis_o_l, df_res.dropna().vis_ml, margins=True,)
+    acc_ml = round(accuracy_score(df_res_dropna.vis_o_l,df_res_dropna.vis_ml),2)
+    HSS_ml = Hss(cm_ml)
+    
+    #Heidke skill score meteorological model
+    cm_wrf = pd.crosstab(df_res.dropna().vis_o_l, df_res.dropna().vis_WRF, margins=True,)
+    acc_wrf = round(accuracy_score(df_res_dropna.vis_o_l,df_res_dropna.vis_WRF),2)
+    HSS_wrf = Hss(cm_wrf)
+    if acc_ml>acc_wrf:
+      score_ml+=1
+      best_ml.append("visibility")
+    if acc_ml<acc_wrf:
+      score_wrf+=1
+      best_wrf.append("visibility")
+    
+    #show results
+    print(" ### **Horizontal visibility**")
+    
+    fig1, ax = plt.subplots(figsize=(4,2))
+    sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
+                linewidths=.2, linecolor='black',)
+    plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
+    #plt.show(fig1)
+    st.pyplot(fig1)
+    
+    fig1, ax = plt.subplots(figsize=(4,2))
+    sns.heatmap(cm_wrf, annot=True, cmap='coolwarm',
+                linewidths=.2, linecolor='black',)
+    plt.title("Confusion matrix\nAccuracy meteorologic model: {:.0%}".format(acc_wrf))
+    #plt.show(fig1)
+    st.pyplot(fig1)
+    
+    fig, ax = plt.subplots(figsize=(10,4))
+    plt.plot(df_res_dropna.index, df_res_dropna['vis_ml'],marker="^", markersize=8,
+             markerfacecolor='w', color="b",linestyle='');
+    plt.plot(df_res_dropna.index, df_res_dropna['vis_o_l'],marker="*",markersize=8,
+             markerfacecolor='w', color="g",linestyle='');
+    plt.plot(df_res_dropna.index, df_res_dropna['vis_WRF'],marker="v",markersize=8,
+             markerfacecolor='w',color="r", linestyle='');
+    plt.legend(('vis ml', 'vis observed',"vis WRF"),)
+    plt.grid(True, axis="both")
+    ref_ml0 = round(alg["score"]["HSS_ml"],2)
+    ref_ml1 = round(alg1["score"]["HSS_ml"],2)
+    ref_met0 = round(alg["score"]["HSS_met"],2)
+    ref_met1 = round(alg1["score"]["HSS_met"],2)
+    plt.title("Actual Heidke skill score meteorological model: {}. Reference (D0): {}. Reference (D1): {}\nActual Heidke skill score machine learning: {}. Reference (D0): {}. Reference (D1): {}".format(HSS_wrf,ref_met0,ref_met1,HSS_ml,ref_ml0,ref_ml1))
+    #plt.show(fig)
+    st.pyplot(fig)
+    
+    fig, ax = plt.subplots(figsize=(10,4))
+    plt.plot(df_for.index, df_for['vis_ml'],marker="^", markersize=8,
+             markerfacecolor='w', color="b",linestyle='');
+    plt.plot(df_for.index, df_for['vis_WRF'],marker="v",markersize=8,
+             markerfacecolor='w', color="r",linestyle='');
+    plt.title("Forecast machine learning")
+    plt.grid(True,axis="both")
+    #plt.show(fig)
+    st.pyplot(fig)
+    
+    #show probabilistic results
+    prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
+    df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index.map(lambda t: t.strftime('%d-%m %H'))))
+    fig, ax = plt.subplots(figsize=(10,8))
+    df_prob["<=1000m"] =df_prob["<=1000m"].round(1)
+    df_prob["<=1000m"].plot(ax=ax, grid=True, ylim =[0, 1], title="Horizontal visibility below 1000 meters probability", kind='bar')
+    #plt.show(fig)
+    st.pyplot(fig)
+except:
+    print("*******")
+    st.markdown(" #### ****")  
 
 #@title Cloud cover
 st.markdown(" ### **Cloud cover level 1**")
