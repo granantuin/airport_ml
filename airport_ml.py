@@ -595,7 +595,7 @@ try:
 
 except:
   print("*******")
-
+  st.markdown(" #### ****")  
 
 #@title Precipitation
 st.markdown(" ### **Precipitation**")
