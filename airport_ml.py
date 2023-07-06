@@ -249,10 +249,77 @@ def get_meteogalicia_model_12Km(coorde):
      
     return dffinal , control
 
+def get_meteogalicia_model_1Km(coorde):
+    """
+    get meteogalicia model (1Km)from algo coordenates
+    Returns
+    -------
+    dataframe with meteeorological variables forecasted.
+    """
+    
+    #defining url to get model from Meteogalicia server
+    var1 = "var=dir&var=mod&var=wind_gust&var=mslp&var=temp&var=rh&var=visibility&var=lhflx"
+    var2 = "&var=lwflx&var=conv_prec&var=prec&var=swflx&var=shflx&var=cape&var=cin&var=cfh&var=T850"
+    var3 = "&var=cfl&var=cfm&var=cft&var=HGT500&var=HGT850&var=T500&var=snow_prec&var=snowlevel"
+    var = var1+var2+var3 
+    head1 = "https://mandeo.meteogalicia.es/thredds/ncss/wrf_1km_baixas/fmrc/files/" 
+
+    try:
+          
+      today = pd.to_datetime("today")    
+      head2 = today.strftime("/%Y%m%d/wrf_arw_det1km_history_d05")
+      head3 = today.strftime("_%Y%m%d_0000.nc4?")
+      head = head1+head2+head3
+       
+      f_day=(today+timedelta(days=2)).strftime("%Y-%m-%d") 
+      tail="&time_start="+today.strftime("%Y-%m-%d")+"T01%3A00%3A00Z&time_end="+f_day+"T23%3A00%3A00Z&accept=csv"
+  
+      dffinal=pd.DataFrame() 
+      for coor in list(zip(coorde.lat.tolist(),coorde.lon.tolist(),np.arange(0,len(coorde.lat.tolist())).astype(str))):
+          dffinal=pd.concat([dffinal,pd.read_csv(head+var+"&latitude="+str(coor[0])+"&longitude="+str(coor[1])+tail,).add_suffix(str(coor[2]))],axis=1)    
+  
+      #filter all columns with lat lon and date
+      dffinal=dffinal.filter(regex='^(?!(lat|lon|date).*?)')
+  
+      #remove column string between brakets
+      new_col=[c.split("[")[0]+c.split("]")[-1] for c in dffinal.columns]
+      for col in zip(dffinal.columns,new_col):
+          dffinal=dffinal.rename(columns = {col[0]:col[1]})
+  
+      dffinal=dffinal.set_index(pd.date_range(start=today.strftime("%Y-%m-%d"), end=(today+timedelta(days=3)).strftime("%Y-%m-%d"), freq="H")[1:-1])  
+      control = True
+          
+    except:
+
+      today = pd.to_datetime("today")-timedelta(1)
+      head2 = today.strftime("/%Y%m%d/wrf_arw_det1km_history_d05")
+      head3 = today.strftime("_%Y%m%d_0000.nc4?")
+      head = head1+head2+head3
+        
+      f_day=(today+timedelta(days=2)).strftime("%Y-%m-%d") 
+      tail="&time_start="+today.strftime("%Y-%m-%d")+"T01%3A00%3A00Z&time_end="+f_day+"T23%3A00%3A00Z&accept=csv"
+  
+      dffinal=pd.DataFrame() 
+      for coor in list(zip(coorde.lat.tolist(),coorde.lon.tolist(),np.arange(0,len(coorde.lat.tolist())).astype(str))):
+          dffinal=pd.concat([dffinal,pd.read_csv(head+var+"&latitude="+str(coor[0])+"&longitude="+str(coor[1])+tail,).add_suffix(str(coor[2]))],axis=1)    
+  
+      
+      #filter all columns with lat lon and date
+      dffinal=dffinal.filter(regex='^(?!(lat|lon|date).*?)')
+  
+      #remove column string between brakets
+      new_col=[c.split("[")[0]+c.split("]")[-1] for c in dffinal.columns]
+      for col in zip(dffinal.columns,new_col):
+          dffinal=dffinal.rename(columns = {col[0]:col[1]})
+  
+      dffinal=dffinal.set_index(pd.date_range(start=today.strftime("%Y-%m-%d"), end=(today+timedelta(days=3)).strftime("%Y-%m-%d"), freq="H")[1:-1])  
+      control= False  
+
+     
+    return dffinal , control
 
 
-
-options = ["LECO", "LEST", "LEBL"]
+options = ["LECO", "LEST", "LEBL","LEVX"]
 default_option = options[0]  # Set the default option
 
 # Create a radio button to select the string variable
@@ -274,12 +341,15 @@ algo_dir = OACI+"/algorithms/"
 #grid type
 k4 = ["LECO","LEST"]
 k12 = ["LEBL"]
+k1 = ["LEVX"]
 
 if OACI in k4:
     meteo_model,con = get_meteogalicia_model_4Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
-else:
+if OACI in k12:
     meteo_model,con = get_meteogalicia_model_12Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
-
+if OACI in k1:
+    meteo_model,con = get_meteogalicia_model_1Km(pickle.load(open(algo_dir+os.listdir(algo_dir)[0],"rb"))["coor"])
+    
 
 #add time variables
 meteo_model["hour"] = meteo_model.index.hour
@@ -811,161 +881,170 @@ except:
     st.markdown(" #### ****")  
 
 #@title Cloud cover
-st.markdown(" ### **Cloud cover level 1**")
+try:
+    st.markdown(" ### **Cloud cover level 1**")
 
-#open algorithm skyc1 d0 d1
-alg = pickle.load(open(algo_dir+"skyc1_"+OACI+"_d0.al","rb"))
-alg1 = pickle.load(open(algo_dir+"skyc1_"+OACI+"_d1.al","rb"))
+    #open algorithm skyc1 d0 d1
+    alg = pickle.load(open(algo_dir+"skyc1_"+OACI+"_d0.al","rb"))
+    alg1 = pickle.load(open(algo_dir+"skyc1_"+OACI+"_d1.al","rb"))
 
-#select model variables
-model_x_var = meteo_model[:24][alg["x_var"]]
-model_x_var1 = meteo_model[24:48][alg1["x_var"]]
+    #select model variables
+    model_x_var = meteo_model[:24][alg["x_var"]]
+    model_x_var1 = meteo_model[24:48][alg1["x_var"]]
 
-# forecat spd from ml
-skyc1_ml = alg["pipe"].predict(model_x_var)
-skyc1_ml1 = alg1["pipe"].predict(model_x_var1)
+    # forecat spd from ml
+    skyc1_ml = alg["pipe"].predict(model_x_var)
+    skyc1_ml1 = alg1["pipe"].predict(model_x_var1)
 
-#set up dataframe forecast machine learning and WRF
-df_for = pd.DataFrame({"time":meteo_model[:48].index,
-                       "skyc1_ml": np.concatenate((skyc1_ml,skyc1_ml1),axis =0),})
-df_for = df_for.set_index("time")
+    #set up dataframe forecast machine learning and WRF
+    df_for = pd.DataFrame({"time":meteo_model[:48].index,
+                           "skyc1_ml": np.concatenate((skyc1_ml,skyc1_ml1),axis =0),})
+    df_for = df_for.set_index("time")
 
-# concat metars an forecast
-df_res = pd.concat([df_for,metars["skyc1_o"]],axis = 1)
+    # concat metars an forecast
+    df_res = pd.concat([df_for,metars["skyc1_o"]],axis = 1)
 
-#get accuracy
-df_res_dropna = df_res.dropna()
-acc_ml = round(accuracy_score(df_res_dropna.skyc1_o,df_res_dropna.skyc1_ml),2)
-cm_ml = pd.crosstab(df_res.dropna().skyc1_o, df_res.dropna().skyc1_ml, margins=True,)
+    #get accuracy
+    df_res_dropna = df_res.dropna()
+    acc_ml = round(accuracy_score(df_res_dropna.skyc1_o,df_res_dropna.skyc1_ml),2)
+    cm_ml = pd.crosstab(df_res.dropna().skyc1_o, df_res.dropna().skyc1_ml, margins=True,)
 
-#show results
-fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',)
-plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
-#plt.show(fig)
-st.pyplot(fig1)
+    #show results
+    fig1, ax = plt.subplots(figsize=(4,2))
+    sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
+                linewidths=.2, linecolor='black',)
+    plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
+    #plt.show(fig)
+    st.pyplot(fig1)
 
-fig, ax = plt.subplots(figsize=(10,6))
-plt.plot(df_res_dropna.index, df_res_dropna['skyc1_ml'], marker="^", markersize=8,
-         markerfacecolor='w', color="b", linestyle='')
-plt.plot(df_res_dropna.index, df_res_dropna['skyc1_o'], marker="*", markersize=13,
-         markerfacecolor='k', color="g", linestyle='');
-plt.legend(('Cloud cover ml', 'Cloud cover observed'),)
-plt.grid(True)
-ref_ml0 = round(alg["score"]["acc_ml"],2)
-ref_ml1 = round(alg1["score"]["acc_ml"],2)
-plt.title("Actual accuracy machine learning: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%}".format(acc_ml,ref_ml0,ref_ml1))
-#plt.show(fig)
-st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10,6))
+    plt.plot(df_res_dropna.index, df_res_dropna['skyc1_ml'], marker="^", markersize=8,
+             markerfacecolor='w', color="b", linestyle='')
+    plt.plot(df_res_dropna.index, df_res_dropna['skyc1_o'], marker="*", markersize=13,
+             markerfacecolor='k', color="g", linestyle='');
+    plt.legend(('Cloud cover ml', 'Cloud cover observed'),)
+    plt.grid(True)
+    ref_ml0 = round(alg["score"]["acc_ml"],2)
+    ref_ml1 = round(alg1["score"]["acc_ml"],2)
+    plt.title("Actual accuracy machine learning: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%}".format(acc_ml,ref_ml0,ref_ml1))
+    #plt.show(fig)
+    st.pyplot(fig)
 
-fig, ax = plt.subplots(figsize=(10,6))
-plt.plot(df_for.index, df_for['skyc1_ml'],marker="^",linestyle='');
-plt.title("Forecast machine learning")
-plt.grid(True)
-#plt.show(fig)
-st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10,6))
+    plt.plot(df_for.index, df_for['skyc1_ml'],marker="^",linestyle='');
+    plt.title("Forecast machine learning")
+    plt.grid(True)
+    #plt.show(fig)
+    st.pyplot(fig)
 
-#show probabilistic results
-prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
-df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index))
+    #show probabilistic results
+    prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
+    df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index))
 
-# Find the columns where all values are less than or equal to 5%
-cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
-df_prob.drop(cols_to_drop, axis=1, inplace=True)
-df_prob.index = df_prob.index.strftime('%d %H:%M')
+    # Find the columns where all values are less than or equal to 5%
+    cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
+    df_prob.drop(cols_to_drop, axis=1, inplace=True)
+    df_prob.index = df_prob.index.strftime('%d %H:%M')
 
-fig1, ax = plt.subplots(figsize=(5, 9))
-sns.heatmap(df_prob.iloc[:,:-1], annot=True, cmap='coolwarm',
-            linewidths=.6, linecolor='black',fmt='.0%',
-           annot_kws={'size': 10})
-plt.title('Sky cloud cover probabilities')
-#plt.show(fig1)
-st.pyplot(fig1)
+    fig1, ax = plt.subplots(figsize=(5, 9))
+    sns.heatmap(df_prob.iloc[:,:-1], annot=True, cmap='coolwarm',
+                linewidths=.6, linecolor='black',fmt='.0%',
+               annot_kws={'size': 10})
+    plt.title('Sky cloud cover probabilities')
+    #plt.show(fig1)
+    st.pyplot(fig1)
 
+except:
+    print("*******")
+    st.markdown(" #### ****") 
+    
 #@title Cloud height level1
-st.markdown(" ### **Cloud height level 1**")
+try:
+    st.markdown(" ### **Cloud height level 1**")
 
-#open algorithm skyc1 d0 d1
-alg = pickle.load(open(algo_dir+"skyl1_"+OACI+"_d0.al","rb"))
-alg1 = pickle.load(open(algo_dir+"skyl1_"+OACI+"_d1.al","rb"))
+    #open algorithm skyc1 d0 d1
+    alg = pickle.load(open(algo_dir+"skyl1_"+OACI+"_d0.al","rb"))
+    alg1 = pickle.load(open(algo_dir+"skyl1_"+OACI+"_d1.al","rb"))
 
-#select model variables
-model_x_var = meteo_model[:24][alg["x_var"]]
-model_x_var1 = meteo_model[24:48][alg1["x_var"]]
+    #select model variables
+    model_x_var = meteo_model[:24][alg["x_var"]]
+    model_x_var1 = meteo_model[24:48][alg1["x_var"]]
 
-# forecat spd from ml
-skyl1_ml = alg["pipe"].predict(model_x_var)
-skyl1_ml1 = alg1["pipe"].predict(model_x_var1)
+    # forecat spd from ml
+    skyl1_ml = alg["pipe"].predict(model_x_var)
+    skyl1_ml1 = alg1["pipe"].predict(model_x_var1)
 
-#set up dataframe forecast machine learning and WRF
-df_for = pd.DataFrame({"time":meteo_model[:48].index,
-                       "skyl1_ml": np.concatenate((skyl1_ml,skyl1_ml1),axis =0),})
-df_for = df_for.set_index("time")
+    #set up dataframe forecast machine learning and WRF
+    df_for = pd.DataFrame({"time":meteo_model[:48].index,
+                           "skyl1_ml": np.concatenate((skyl1_ml,skyl1_ml1),axis =0),})
+    df_for = df_for.set_index("time")
 
-#clouds height to feet or "M" no clooud
-num = pd.to_numeric(metars.skyl1_o, errors="coerce")*1
+    #clouds height to feet or "M" no clooud
+    num = pd.to_numeric(metars.skyl1_o, errors="coerce")*1
 
-#label more or less than 200 feet
-interval = pd.IntervalIndex.from_tuples([(-1, 300),(300,7000)])
-labels = ["<=300ft",">300ft"]
-metars["skyl1_l"] = pd.cut(num, bins=interval,retbins=False,labels=labels)
-metars["skyl1_l"] = metars["skyl1_l"].map({a:b for a,b in zip(interval,labels)})
-metars["skyl1_l"] = metars["skyl1_l"].astype(str).replace("nan","No Cloud")
-metars["skyl1_l"] = pd.Categorical(metars["skyl1_l"])
-# concat metars an forecast
-df_res = pd.concat([df_for,metars["skyl1_l"]],axis = 1)
+    #label more or less than 200 feet
+    interval = pd.IntervalIndex.from_tuples([(-1, 300),(300,7000)])
+    labels = ["<=300ft",">300ft"]
+    metars["skyl1_l"] = pd.cut(num, bins=interval,retbins=False,labels=labels)
+    metars["skyl1_l"] = metars["skyl1_l"].map({a:b for a,b in zip(interval,labels)})
+    metars["skyl1_l"] = metars["skyl1_l"].astype(str).replace("nan","No Cloud")
+    metars["skyl1_l"] = pd.Categorical(metars["skyl1_l"])
+    # concat metars an forecast
+    df_res = pd.concat([df_for,metars["skyl1_l"]],axis = 1)
 
-#get accuracy
-df_res_dropna = df_res.dropna()
-acc_ml = round(accuracy_score(df_res_dropna.skyl1_l,df_res_dropna.skyl1_ml),2)
-cm_ml = pd.crosstab(df_res.dropna().skyl1_l, df_res.dropna().skyl1_ml, margins=True,)
+    #get accuracy
+    df_res_dropna = df_res.dropna()
+    acc_ml = round(accuracy_score(df_res_dropna.skyl1_l,df_res_dropna.skyl1_ml),2)
+    cm_ml = pd.crosstab(df_res.dropna().skyl1_l, df_res.dropna().skyl1_ml, margins=True,)
 
-#show results
-fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',)
-plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
-#plt.show(fig)
-st.pyplot(fig1)
+    #show results
+    fig1, ax = plt.subplots(figsize=(4,2))
+    sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
+                linewidths=.2, linecolor='black',)
+    plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
+    #plt.show(fig)
+    st.pyplot(fig1)
 
-fig, ax = plt.subplots(figsize=(10,6))
-plt.plot(df_res_dropna.index, df_res_dropna['skyl1_ml'], marker="^", markersize=8,
-         markerfacecolor='w', color="b", linestyle='')
-plt.plot(df_res_dropna.index, df_res_dropna['skyl1_l'], marker="*", markersize=13,
-         markerfacecolor='k', color="g", linestyle='');
-plt.legend(('Cloud cover ml', 'Cloud cover observed'),)
-plt.grid(True)
-ref_ml0 = round(alg["score"]["acc_ml"],2)
-ref_ml1 = round(alg1["score"]["acc_ml"],2)
-plt.title("Actual accuracy machine learning: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%}".format(acc_ml,ref_ml0,ref_ml1))
-#plt.show(fig)
-st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10,6))
+    plt.plot(df_res_dropna.index, df_res_dropna['skyl1_ml'], marker="^", markersize=8,
+             markerfacecolor='w', color="b", linestyle='')
+    plt.plot(df_res_dropna.index, df_res_dropna['skyl1_l'], marker="*", markersize=13,
+             markerfacecolor='k', color="g", linestyle='');
+    plt.legend(('Cloud cover ml', 'Cloud cover observed'),)
+    plt.grid(True)
+    ref_ml0 = round(alg["score"]["acc_ml"],2)
+    ref_ml1 = round(alg1["score"]["acc_ml"],2)
+    plt.title("Actual accuracy machine learning: {:.0%}. Reference (D0): {:.0%}. Reference (D1): {:.0%}".format(acc_ml,ref_ml0,ref_ml1))
+    #plt.show(fig)
+    st.pyplot(fig)
 
-fig, ax = plt.subplots(figsize=(10,6))
-plt.plot(df_for.index, df_for['skyl1_ml'],marker="^",linestyle='');
-plt.title("Forecast machine learning")
-plt.grid(True)
-#plt.show(fig)
-st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10,6))
+    plt.plot(df_for.index, df_for['skyl1_ml'],marker="^",linestyle='');
+    plt.title("Forecast machine learning")
+    plt.grid(True)
+    #plt.show(fig)
+    st.pyplot(fig)
 
-#show probabilistic results
-prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
-df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index))
+    #show probabilistic results
+    prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
+    df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index))
 
-# Find the columns where all values are less than or equal to 5%
-cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
-df_prob.drop(cols_to_drop, axis=1, inplace=True)
-df_prob.index = df_prob.index.strftime('%d %H:%M')
+    # Find the columns where all values are less than or equal to 5%
+    cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
+    df_prob.drop(cols_to_drop, axis=1, inplace=True)
+    df_prob.index = df_prob.index.strftime('%d %H:%M')
 
-fig1, ax = plt.subplots(figsize=(5, 9))
-sns.heatmap(df_prob.iloc[:,:-1], annot=True, cmap='coolwarm',
-            linewidths=.6, linecolor='black',fmt='.0%',
-           annot_kws={'size': 10})
-plt.title('Sky cloud height level probabilities')
-#plt.show(fig1)
-st.pyplot(fig1)
+    fig1, ax = plt.subplots(figsize=(5, 9))
+    sns.heatmap(df_prob.iloc[:,:-1], annot=True, cmap='coolwarm',
+                linewidths=.6, linecolor='black',fmt='.0%',
+               annot_kws={'size': 10})
+    plt.title('Sky cloud height level probabilities')
+    #plt.show(fig1)
+    st.pyplot(fig1)
 
+except:
+    print("*******")
+    st.markdown(" #### ****") 
 
 
 
