@@ -573,7 +573,8 @@ plot_sns = sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #plt.show(fig1)
 #st.pyplot(fig1)
-st.pyplot(plot_sns.figure)
+#st.pyplot(plot_sns.figure)
+st.dataframe(cm_ml)
 
 fig, ax = plt.subplots(figsize=(10,4))
 plt.plot(df_res_dropna.index, df_res_dropna['brfg_ml'],marker="^", markersize=8,
