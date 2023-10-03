@@ -833,20 +833,22 @@ try:
     
     #show results
     print(" ### **Horizontal visibility**")
-    
+    st.markdown(" #### **Accuracy machine learning: {:.0%}. Columns forecast and rows actual data**".format(acc_ml)) 
     fig1, ax = plt.subplots(figsize=(4,2))
-    sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-                linewidths=.2, linecolor='black',)
+    #sns.heatmap(cm_ml, annot=True, cmap='coolwarm', linewidths=.2, linecolor='black',)
     plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
     #plt.show(fig1)
-    st.pyplot(fig1)
-    
+    #st.pyplot(fig1)
+    st.dataframe(cm_ml)
+
+    st.markdown(" #### **Accuracy meteorological model: {:.0%}. Columns forecast and rows actual data**".format(acc_wrf)) 
     fig1, ax = plt.subplots(figsize=(4,2))
     sns.heatmap(cm_wrf, annot=True, cmap='coolwarm',
                 linewidths=.2, linecolor='black',)
     plt.title("Confusion matrix\nAccuracy meteorologic model: {:.0%}".format(acc_wrf))
     #plt.show(fig1)
-    st.pyplot(fig1)
+    #st.pyplot(fig1)
+    st.dataframe(cm_wrf)
     
     fig, ax = plt.subplots(figsize=(10,4))
     plt.plot(df_res_dropna.index, df_res_dropna['vis_ml'],marker="^", markersize=8,
