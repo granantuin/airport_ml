@@ -730,7 +730,7 @@ if acc_ml<acc_wrf:
 
 
 #show results
-st.markdown(" ### **Precipitation. Columns forecast and rows actual data. Accuracy machine learning: {:.0%}**".format(acc_ml))
+st.markdown(" #### **Accuracy machine learning: {:.0%}. Columns forecast and rows actual data**".format(acc_ml))
 fig1, ax = plt.subplots(figsize=(4,2))
 #sns.heatmap(cm_ml, annot=True, cmap='coolwarm',linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
@@ -738,6 +738,7 @@ plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #st.pyplot(fig1)
 st.dataframe(cm_ml)
 
+st.markdown(" #### **Accuracy meteorologic model: {:.0%}. Columns forecast and rows actual data**".format(acc_wrf))
 fig1, ax = plt.subplots(figsize=(4,2))
 #sns.heatmap(cm_wrf, annot=True, cmap='coolwarm', linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy meteorologic model: {:.0%}".format(acc_wrf))
