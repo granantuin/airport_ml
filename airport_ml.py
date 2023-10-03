@@ -463,14 +463,8 @@ sns.heatmap(df_prob[:48], annot=True, cmap='coolwarm',
 plt.title('Probabilities wind direction')
 #plt.show(fig1)
 st.pyplot(fig1)
+st.dataframe(df_prob[:48])
 
-"""
-fig, ax = plt.subplots()
-sns.heatmap(df_prob[72:96], annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',fmt='.0%',ax=ax)
-ax.set_title("Wind direction probabilities intervals")
-st.pyplot(fig)
-"""
 
 #@title Wind intensity
 st.markdown(" ### **Wind intensity knots**")
