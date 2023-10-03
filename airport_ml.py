@@ -560,7 +560,7 @@ HSS_ml = Hss(cm_ml)
 
 #show results
 print(" ### **BR or FG. Columns forecast and rows actual data**")
-
+st.markdown(" #### **Accuracy machine learning: {:.0%}. Columns forecast and rows actual data**".format(acc_ml)
 fig1, ax = plt.subplots(figsize=(4,2))
 plot_sns = sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black', ax=ax)
