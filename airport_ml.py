@@ -450,20 +450,20 @@ df_prob.index = meteo_model[:48].index.strftime('%b %d %H:%M Z')
 
 # Find the columns where all values are less than or equal to 5%
 cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
-#df_prob.drop(cols_to_drop, axis=1, inplace=True)
+df_prob.drop(cols_to_drop, axis=1, inplace=True)
 
 
 
 #Display
 
 fig1, ax = plt.subplots(figsize=(12, 9))
-sns.heatmap(df_prob[:48], annot=True, cmap='coolwarm',
+sns.heatmap(df_prob[:48], annot=False, cmap='coolwarm',
             linewidths=.6, linecolor='black',fmt='.0%',
            annot_kws={'size': 10},ax=ax)
 plt.title('Probabilities wind direction')
 #plt.show(fig1)
 st.pyplot(fig1)
-st.dataframe(df_prob[:48])
+st.dataframe((df_prob[:48]*100).round(0).astype(int).astype(str) + '%')
 
 
 #@title Wind intensity
