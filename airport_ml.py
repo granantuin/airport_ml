@@ -444,13 +444,30 @@ st.pyplot(fig)
 
 #probabilistic results
 prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
-df_prob = pd.DataFrame(prob,index =alg["pipe"].classes_ ).T
+df_prob = pd.DataFrame(prob,index = (alg["pipe"].classes_ )).T
 df_prob = df_prob[labels]
 df_prob.index = meteo_model[:48].index.strftime('%b %d %H:%M Z')
 
 # Find the columns where all values are less than or equal to 5%
 cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
 df_prob.drop(cols_to_drop, axis=1, inplace=True)
+
+"""
+#probabilistic results
+prob = (np.concatenate((algo_d0["pipe"].predict_proba(model_x_var_d0),
+                        algo_d1["pipe"].predict_proba(model_x_var_d1),
+                        algo_d2["pipe"].predict_proba(model_x_var_d2),
+                        algo_d3["pipe"].predict_proba(model_x_var_d3)),
+                       axis =0)).transpose()
+df_prob = pd.DataFrame(prob,index = (algo_d0["pipe"].classes_ )).T
+df_prob = df_prob[labels_d]
+df_prob.index = meteo_model[:96].index.strftime('%b %d %H:%M Z')
+
+# Find the columns where all values are less than or equal to 5%
+cols_to_drop = df_prob[:24].columns[df_prob[:24].apply(lambda x: x <= 0.05).all()]
+df_prob.drop(cols_to_drop, axis=1, inplace=True)
+df_prob[:24].columns = pd.CategoricalIndex(df_prob.columns[:24], ordered=True)
+"""
 
 #Display
 
@@ -461,6 +478,7 @@ sns.heatmap(df_prob[:48], annot=True, cmap='coolwarm',
 plt.title('Probabilities wind direction more than 5%')
 #plt.show(fig1)
 st.pyplot(fig1)
+
 
 #@title Wind intensity
 st.markdown(" ### **Wind intensity knots**")
