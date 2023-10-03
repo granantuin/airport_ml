@@ -452,10 +452,7 @@ df_prob.index = meteo_model[:48].index.strftime('%b %d %H:%M Z')
 cols_to_drop = df_prob.columns[df_prob.apply(lambda x: x <= 0.05).all()]
 df_prob.drop(cols_to_drop, axis=1, inplace=True)
 
-
-
 #Display
-
 fig1, ax = plt.subplots(figsize=(12, 9))
 sns.heatmap(df_prob[:48], annot=False, cmap='coolwarm',
             linewidths=.6, linecolor='black',fmt='.0%',
@@ -522,6 +519,9 @@ ax.grid(True, which = "both", axis = "both")
 #plt.show(fig)
 st.pyplot(fig)
 
+
+
+
 #@title BR or FG
 st.markdown(" ### **BR or FG**")
 #open algorithm brfg d0 d1
@@ -559,7 +559,7 @@ acc_ml = round(accuracy_score(df_res_dropna.brfg_o_l,df_res_dropna.brfg_ml),2)
 HSS_ml = Hss(cm_ml)
 
 #show results
-print(" ### **BR or FG**")
+print(" ### **BR or FG. Columns forecast and rows actual data**")
 
 fig1, ax = plt.subplots(figsize=(4,2))
 plot_sns = sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
@@ -730,20 +730,22 @@ if acc_ml<acc_wrf:
 
 
 #show results
-print(" ### **Precipitation**")
+print(" ### **Precipitation. Columns forecast and rows actual data**")
 fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
+#sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #plt.show(fig1)
 st.pyplot(fig1)
+st.dataframe(cm_ml)
 
 fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_wrf, annot=True, cmap='coolwarm',
+#sns.heatmap(cm_wrf, annot=True, cmap='coolwarm',
             linewidths=.2, linecolor='black',)
 plt.title("Confusion matrix\nAccuracy meteorologic model: {:.0%}".format(acc_wrf))
 #plt.show(fig1)
 st.pyplot(fig1)
+st.dataframe(cm_wrf)
 
 fig, ax = plt.subplots(figsize=(10,6))
 plt.plot(df_res_dropna.index, df_res_dropna['prec_ml'],marker="^", markersize=8,
