@@ -960,7 +960,7 @@ try:
     sns.heatmap(df_prob.iloc[:,:-1], annot=False, cmap='coolwarm',
                 linewidths=.6, linecolor='black',fmt='.0%',
                annot_kws={'size': 10})
-    plt.title('Sky cloud cover probabilities')
+    plt.title('Sky cloud cover probabilities (M = No clouds)')
     #plt.show(fig1)
     st.pyplot(fig1)
 
@@ -1008,12 +1008,13 @@ try:
     cm_ml = pd.crosstab(df_res.dropna().skyl1_l, df_res.dropna().skyl1_ml, margins=True,)
 
     #show results
+    st.markdown(" #### **Accuracy machine learning: {:.0%}. Columns forecast and rows actual data**".format(acc_ml))
     fig1, ax = plt.subplots(figsize=(4,2))
-    sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-                linewidths=.2, linecolor='black',)
+    #sns.heatmap(cm_ml, annot=True, cmap='coolwarm', linewidths=.2, linecolor='black',)
     plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
     #plt.show(fig)
-    st.pyplot(fig1)
+    #st.pyplot(fig1)
+    st.dataframe(cm_ml)
 
     fig, ax = plt.subplots(figsize=(10,6))
     plt.plot(df_res_dropna.index, df_res_dropna['skyl1_ml'], marker="^", markersize=8,
@@ -1045,9 +1046,7 @@ try:
     df_prob.index = df_prob.index.strftime('%d %H:%M')
 
     fig1, ax = plt.subplots(figsize=(5, 9))
-    sns.heatmap(df_prob.iloc[:,:-1], annot=True, cmap='coolwarm',
-                linewidths=.6, linecolor='black',fmt='.0%',
-               annot_kws={'size': 10})
+    sns.heatmap(df_prob.iloc[:,:-1], annot=False, cmap='coolwarm',linewidths=.6, linecolor='black',fmt='.0%',annot_kws={'size': 10})
     plt.title('Sky cloud height level probabilities')
     #plt.show(fig1)
     st.pyplot(fig1)
