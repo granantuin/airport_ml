@@ -638,12 +638,13 @@ try:
   HSS_ml = Hss(cm_ml)
 
   #show results
+  st.markdown(" #### **Accuracy machine learning: {:.0%}. Columns forecast and rows actual data**".format(acc_ml))  
   fig1, ax = plt.subplots(figsize=(4,2))
-  sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-              linewidths=.2, linecolor='black',)
+  #sns.heatmap(cm_ml, annot=True, cmap='coolwarm', linewidths=.2, linecolor='black',)
   plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
   #plt.show(fig1)
-  st.pyplot(fig1)
+  #st.pyplot(fig1)
+  st.dataframe(cm_ml)  
     
   fig, ax = plt.subplots(figsize=(10,4))
   plt.plot(df_res_dropna.index, df_res_dropna['ts_ml'],marker="^", markersize=8,
@@ -667,7 +668,6 @@ try:
     
   #show probabilistic results
   prob = (np.concatenate((alg["pipe"].predict_proba(model_x_var),alg1["pipe"].predict_proba(model_x_var1)),axis =0)).transpose()
-
   df_prob = (pd.DataFrame(prob,index =alg["pipe"].classes_ ).T.set_index(meteo_model[:48].index.map(lambda t: t.strftime('%d-%m %H'))))
   fig, ax = plt.subplots(figsize=(10,8))
   df_prob["TS"] = df_prob["TS"].round(1)
