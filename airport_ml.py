@@ -1093,7 +1093,7 @@ if mae_ml > mae_wrf:
 
 #print results
 print(" #### **Temperature Celsius**")
-st.markdown(" #### **Temperature Celsius**")
+st.markdown(" ### **Temperature Celsius**")
 
 fig, ax = plt.subplots(figsize=(10,6))
 df_res.dropna().plot(grid=True, ax=ax, color=["r","b","g"],linestyle='--');
@@ -1152,7 +1152,7 @@ if mae_ml > mae_wrf:
   best_wrf.append("pressure")
 
 #print results
-print("#### **Pressure hectopascals**")
+print("### **Pressure hectopascals**")
 st.markdown("#### **Pressure hectopascals**")
 fig, ax = plt.subplots(figsize=(10,6))
 df_res.dropna().plot(grid=True, ax=ax, color=["r","b","g"],linestyle='--');
