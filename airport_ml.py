@@ -568,11 +568,12 @@ HSS_ml = Hss(cm_ml)
 print(" ### **BR or FG**")
 
 fig1, ax = plt.subplots(figsize=(4,2))
-sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
-            linewidths=.2, linecolor='black',)
+plot_sns = sns.heatmap(cm_ml, annot=True, cmap='coolwarm',
+            linewidths=.2, linecolor='black', ax=ax)
 plt.title("Confusion matrix\nAccuracy machine learning: {:.0%}".format(acc_ml))
 #plt.show(fig1)
-st.pyplot(fig1)
+#st.pyplot(fig1)
+st.pyplot(plot_sns.figure)
 
 fig, ax = plt.subplots(figsize=(10,4))
 plt.plot(df_res_dropna.index, df_res_dropna['brfg_ml'],marker="^", markersize=8,
