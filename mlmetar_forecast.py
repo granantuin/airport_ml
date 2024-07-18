@@ -19,8 +19,19 @@ import numpy as np
 import pandas as pd
 from datetime import timedelta
 import pickle
+import streamlit as st
 
-algo_dir = "/content/drive/MyDrive/Colab Notebooks/airport_ml/"+oaci+"/algorithms/"
+st.set_page_config(page_title="Machine learning Metar Forecast",layout="wide")
+
+oaci = "LEVX" # @param ["LEVX", "LEST","LECO"]
+options = ["LECO", "LEST","LEVX"]
+default_option = options[0]  # Set the default option
+
+# Create a radio button to select the string variable
+oaci = st.radio("Select airport", options, index=0)
+
+
+algo_dir = oaci+"/algorithms/"
 sequence_length = 13
 
 def custom_round(value):
@@ -415,17 +426,18 @@ global_r = pd.concat([result,metar],axis=1)
 for ind in range(2, len(global_r)):
     y_pred_value = global_r.iloc[ind]["y_pred"]
     if pd.isna(y_pred_value):
-        print("Time:", global_r.iloc[ind]["metar_o"].split()[1][2:].upper())
+        st.write("Time:", global_r.iloc[ind]["metar_o"].split()[1][2:].upper())
     else:
         if isinstance(y_pred_value, str):
-            print("Time:", y_pred_value.split()[1][2:].upper())
+            st.write("Time:", y_pred_value.split()[1][2:].upper())
         else:
-            print("Time:", global_r.iloc[ind]["metar_o"].split()[1][2:].upper())
+            st.write("Time:", global_r.iloc[ind]["metar_o"].split()[1][2:].upper())
 
-    print("Real METAR:    ",global_r.iloc[ind]["metar_o"])
-    print("METAR forecast:",global_r.iloc[ind]["y_pred"])
+    st.write("Real METAR:    ",global_r.iloc[ind]["metar_o"])
+    st.write("METAR forecast:",global_r.iloc[ind]["y_pred"])
     if meteorologic_model:
-     print("Meteorological model:",global_r.iloc[ind]["all"])
-    print("*************")
+     st.write("Meteorological model:",global_r.iloc[ind]["all"])
+    st.write("*************")
 
-display(pd.read_csv(algo_dir+oaci+"mlscore.csv").set_index("Unnamed: 0"))
+score_df=pd.read_csv(algo_dir+oaci+"mlscore.csv").set_index("Unnamed: 0")
+st.dataframe(score_df)
