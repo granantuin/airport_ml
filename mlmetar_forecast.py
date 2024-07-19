@@ -191,7 +191,7 @@ def get_meteogalicia_model_4Km(coorde):
 
     return dffinal , control
 
-coor = pd.read_csv("/content/drive/MyDrive/Colab Notebooks/airport_ml/"+oaci+"/input_files/"+oaci+"coor.csv")
+coor = pd.read_csv(algo_dir+oaci+"coor.csv")
 
 if oaci=="LEVX":
   df_all = get_meteogalicia_model_1Km(coor)[0]
