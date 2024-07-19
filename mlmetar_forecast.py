@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/14Uu4q6DLdqOwmL-6oMxZXFVNcInzT8e3
 """
 
-!pip install lightgbm==3.1.1
+
 
 #@title operational
 oaci = "LECO" # @param ["LEVX", "LEST","LECO"]
