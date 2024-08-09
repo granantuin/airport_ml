@@ -8,7 +8,7 @@ seaborn
 
 keras==2.15.0
 tensorflow
-tensorflow-datasets==4.9.6
+#tensorflow-datasets==4.9.6
 tensorflow-estimator==2.15.0
 tensorflow-gcs-config==2.15.0
 tensorflow-hub==0.16.1
