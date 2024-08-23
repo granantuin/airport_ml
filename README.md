@@ -1,7 +1,7 @@
 
 # Airport Machine Learning Models
 
-This repository contains machine learning models and tools for predicting the likelihood of issuing SPECI reports at various airports. The models are trained using meteorological data and are tailored to each airport, identified by its ICAO code.
+This repository provides machine learning models and tools designed to predict meteorological variables as reported in METARs. The repository includes two types of algorithms: those based on the scikit-learn library (deployed via airport_ml.py) and algorithms leveraging large language models (LLMs), which are deployed using mlmetar_forecast.py. The models are trained on meteorological data specific to each airport, identified by its ICAO code.
 
 ## Repository Structure
 
