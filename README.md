@@ -8,9 +8,9 @@ This repository provides machine learning models and tools designed to predict m
 ```bash
 .
 ├── README.md                 # Project documentation (this file)
-├── airport_ml.py             # Main script for running ML models
+├── airport_ml.py             # Script for running ML models based on the scikit-learn library
 ├── help_functions.py         # Helper functions used across different scripts
-├── mlmetar_forecast.py       # Script for METAR forecasting
+├── mlmetar_forecast.py       # Script for METAR forecasting leveraging large language models (LLMs)
 ├── requirements.txt          # Python packages and dependencies required
 ├── LEBL/                     # Files and models related to Barcelona Airport (LEBL)
 │   ├── algorithms/           # Pre-trained model files (.al) for LEBL
