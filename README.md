@@ -12,18 +12,11 @@ This repository provides machine learning models and tools designed to predict m
 ├── help_functions.py         # Helper functions used across different scripts
 ├── mlmetar_forecast.py       # Script for METAR forecasting leveraging large language models (LLMs)
 ├── requirements.txt          # Python packages and dependencies required
-├── LEBL/                     # Files and models related to Barcelona Airport (LEBL)
-│   ├── algorithms/           # Pre-trained model files (.al) for LEBL
-│   ├── input_files/          # Input data files for training models
-│   └── notebooks/            # Jupyter notebooks for training and testing models
-├── LEST/                     # Files and models related to Santiago de Compostela Airport (LEST)
-│   ├── algorithms/           # Pre-trained model files (.al) for LEST
-│   ├── input_files/          # Input data files for training models
-│   └── notebooks/            # Jupyter notebooks for training and testing models
-└── LEVX/                     # Files and models related to Vigo Airport (LEVX)
-    ├── algorithms/           # Pre-trained model files (.al) for LEVX
-    ├── input_files/          # Input data files for training models
-    └── notebooks/            # Jupyter notebooks for training and testing models
+├── ICAO/                     # Files and models related to ICAO code airport
+│   ├── algorithms/           # Pre-trained model files (.al) for ICAO code airport
+│   ├── input_files/          # Input data files for training models for ICAO code airport
+│   └── notebooks/            # Jupyter notebooks for training and testing models for ICAO code airport
+
 ```
 
 ## Usage
@@ -37,6 +30,9 @@ To train a model:
 1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
 2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
+
+### Input Files
+
 
 ### Running the Main Script
 
