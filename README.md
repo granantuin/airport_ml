@@ -21,7 +21,7 @@ This repository provides machine learning models and tools designed to predict m
 
 ## Usage
 
-### Training Models
+### Notebooks
 
 The models are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models.
 
@@ -32,6 +32,11 @@ To train a model:
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
 ### Input Files
+
+1. OACI-codeY2018Y2022.csv: csv file with with meteorological variables observed in METAR raports
+2. get_wrf_4k.ipynb: script file to get historical meteorological WRF models from METEOGALICIA
+3. OACI-code/input_files/distan_lat(a)lon(b)p(c)R(d)Km.csv: file with the coordinates of the c nearest points (distance between model point d Km) from airport coordinates (latitude a and longitude b). Output file from the script get_wrf_4k.ipynb.
+4.  
 
 
 ### Running the Main Script
