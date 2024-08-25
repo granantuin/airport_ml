@@ -33,7 +33,6 @@ To train a model:
 
 ### Input Files
 
-
 1. get_metar_<ICAO-code>.ipynb: Jupyter Notebook used to retrieve METAR reports from the Iowa State University database for a specified airport, identified by its ICAO code (e.g., LEST, LECO).
 
 2. <ICAO-code>Y2018Y2022.csv: A CSV file containing meteorological variables observed in METAR reports for the specified ICAO code, covering the years 2018 to 2022. This file is generated as an output from the get_metar_<ICAO-code>.ipynb notebook.
