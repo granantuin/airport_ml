@@ -33,11 +33,12 @@ To train a model:
 
 ### Input Files
 
-1. ICAO-codeY2018Y2022.csv: csv file with meteorological variables observed in METAR raports
-2. get_wrf_4k.ipynb: script file to get historical meteorological WRF models from METEOGALICIA
-3. distan_lat(a)lon(b)p(c)R(d)Km.csv: file with the coordinates of the c nearest points (distance between model point d Km) from airport coordinates (latitude a and longitude b). Output file from the script get_wrf_4k.ipynb.
-4. lat(a)lon(b)p(c)R(d)Km.kml: kml file with points file above. Output file from the script get_wrf_4k.ipynb.
-5. lat(a)lon(b)p(c)R(d)KmD(e)Y(f).csv: csv file with forecasted meteorological variables (forecast range Day (e) from year (f)). Variables with subindex 0 belong to the nearest point from lat(a)lon(b) point (airport coordinates) 
+1. get_metar_ICAO-code.ipynb: notebook file to get METAR raports from IOWA STATE UNIVERSITY
+2. ICAO-codeY2018Y2022.csv: csv file with meteorological variables observed in METAR raports. Output file from get_metar_ICAO-code.ipynb
+3. get_wrf_4k.ipynb: notebook file to get historical meteorological WRF models from METEOGALICIA
+4. distan_lat(a)lon(b)p(c)R(d)Km.csv: file with the coordinates of the c nearest points (distance between model point d Km) from airport coordinates (latitude a and longitude b). Output file from the script get_wrf_4k.ipynb.
+5. lat(a)lon(b)p(c)R(d)Km.kml: kml file with points file above. Output file from the script get_wrf_4k.ipynb.
+6. lat(a)lon(b)p(c)R(d)KmD(e)Y(f).csv: csv file with forecasted meteorological variables (forecast range Day (e) from Year (f)). Variables with subindex 0 belong to the nearest point from lat(a)lon(b) point (airport coordinates) and so on. Distance from forecasted points (d). Output file from the script get_wrf_4k.ipynb.
 
 
 
