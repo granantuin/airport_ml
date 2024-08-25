@@ -33,27 +33,15 @@ To train a model:
 
 ### Input Files
 
-1. OACI-codeY2018Y2022.csv: csv file with with meteorological variables observed in METAR raports
+1. ICAO-codeY2018Y2022.csv: csv file with meteorological variables observed in METAR raports
 2. get_wrf_4k.ipynb: script file to get historical meteorological WRF models from METEOGALICIA
-3. OACI-code/input_files/distan_lat(a)lon(b)p(c)R(d)Km.csv: file with the coordinates of the c nearest points (distance between model point d Km) from airport coordinates (latitude a and longitude b). Output file from the script get_wrf_4k.ipynb.
-4.  
+3. distan_lat(a)lon(b)p(c)R(d)Km.csv: file with the coordinates of the c nearest points (distance between model point d Km) from airport coordinates (latitude a and longitude b). Output file from the script get_wrf_4k.ipynb.
+4. lat(a)lon(b)p(c)R(d)Km.kml: kml file with points file above. Output file from the script get_wrf_4k.ipynb.
+5. lat(a)lon(b)p(c)R(d)KmD(e)Y(f).csv: csv file with forecasted meteorological variables (forecast range Day (e) from year (f)). Variables with subindex 0 belong to the nearest point from lat(a)lon(b) point (airport coordinates) 
 
 
-### Running the Main Script
 
-The main script `airport_ml.py` integrates the trained models for predicting SPECI issuance. To run the script:
 
-```bash
-python airport_ml.py
-```
-
-### METAR Forecasting
-
-The `mlmetar_forecast.py` script provides functionalities to forecast METAR data using the trained models. It uses the data and models from the respective airport directories.
-
-```bash
-python mlmetar_forecast.py
-```
 
 ### Dependencies
 
