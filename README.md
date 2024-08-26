@@ -12,24 +12,13 @@ This repository provides machine learning models and tools designed to predict m
 ├── help_functions.py         # Helper functions used across different scripts
 ├── mlmetar_forecast.py       # Script for METAR forecasting leveraging large language models (LLMs)
 ├── requirements.txt          # Python packages and dependencies required
-├── ICAO/                     # Files and models related to ICAO code airport
-│   ├── algorithms/           # Pre-trained model files (.al) for ICAO code airport
-│   ├── input_files/          # Input data files for training models for ICAO code airport
+├── ICAO/                     # Files and models related to ICAO code airport            
+│   └── input_files/          # Input data files for training models for ICAO code airport
 │   └── notebooks/            # Jupyter notebooks for training and testing models for ICAO code airport
-
+    └── algorithms/           # Pre-trained model files (.al) for ICAO code airport 
 ```
 
 ## Usage
-
-### Notebooks
-
-The models are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models.
-
-To train a model:
-
-1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
-2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
-3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
 ### Input Files
 
@@ -45,7 +34,15 @@ To train a model:
 
 6. lat(a)_lon(b)_p(c)_R(d)Km_D(e)_Y(f).csv: A CSV file containing forecasted meteorological variables from the WRF model, with a forecast range of Day (e) for the year Y(f). The variables are organized by proximity to the airport: variables with subindex 0 correspond to the nearest grid point to the airport’s coordinates (a, b), and subsequent subindices represent increasingly distant grid points. The distance between forecasted points is denoted by (d). This file is produced by the get_wrf_4k.ipynb notebook.
 
+### Notebooks
 
+The models are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models.
+
+To train a model:
+
+1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
+2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
+3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 ### Dependencies
 
 The required Python packages and dependencies are listed in the `requirements.txt` file. To install them, run:
