@@ -43,6 +43,17 @@ To train a model:
 1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
 2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
+
+| variable-code | meaning       |
+| ------------- | ------------- |
+| dir           | wind direction|
+| spd           | wind speed    |
+| vis           | visibility    |
+| prec          | precipitation |
+| llwx          | present weather (use in LLM)|
+| Row 3, Cell 1 | Row 3, Cell 2 |
+| Row 4, Cell 1 | Row 4, Cell 2 |
+| Row 5, Cell 1 | Row 5, Cell 2 |
 ### Dependencies
 
 The required Python packages and dependencies are listed in the `requirements.txt` file. To install them, run:
