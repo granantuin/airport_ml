@@ -38,12 +38,7 @@ This repository provides machine learning models and tools designed to predict m
 
 The models are trained using Jupyter notebooks located in the respective airport directories (e.g., LEST/notebooks/). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models. The files are named using the format meteorological_variable_code_ICAO_code. Sometimes, the files also include a forecast range, such as d0, d1, etc., indicating the scope of the algorithm trained (e.g., d0 for immediate forecasts, d1 for forecasts one day ahead).
 
-To train a model:
-
-1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
-2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
-3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
-
+Variable code list
 
 | Variable Code | Meaning                                  |
 | ------------- | ---------------------------------------- |
@@ -59,6 +54,12 @@ To train a model:
 | **temp**      | Temperature                              |
 | **llmtempd**  | Dew point temperature (used in LLM)      |
 | **pres**      | QNH (Atmospheric pressure at sea level)  |
+
+To train a model:
+
+1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
+2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
+3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
 ### Dependencies
 
