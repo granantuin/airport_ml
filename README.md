@@ -44,16 +44,22 @@ To train a model:
 2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
-| variable-code | meaning       |
-| ------------- | ------------- |
-| dir           | wind direction|
-| spd           | wind speed    |
-| vis           | visibility    |
-| prec          | precipitation |
-| llwx          | present weather (use in LLM)|
-| Row 3, Cell 1 | Row 3, Cell 2 |
-| Row 4, Cell 1 | Row 4, Cell 2 |
-| Row 5, Cell 1 | Row 5, Cell 2 |
+
+| Variable Code | Meaning                                  |
+| ------------- | ---------------------------------------- |
+| **dir**       | Wind direction                           |
+| **spd**       | Wind speed                               |
+| **vis**       | Visibility                               |
+| **prec**      | Precipitation                            |
+| **llwx**      | Present weather (used in LLM)            |
+| **BRFG**      | Fog occurrence                           |
+| **llmskyc1**  | First cloud cover (used in LLM)          |
+| **llmskyl1**  | First cloud height (used in LLM)         |
+| **llmskyc2**  | Second cloud cover (used in LLM)         |
+| **temp**      | Temperature                              |
+| **llmtempd**  | Dew point temperature (used in LLM)      |
+| **pres**      | QNH (Atmospheric pressure at sea level)  |
+
 ### Dependencies
 
 The required Python packages and dependencies are listed in the `requirements.txt` file. To install them, run:
