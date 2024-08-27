@@ -36,12 +36,13 @@ This repository provides machine learning models and tools designed to predict m
 
 ### Notebooks
 
-There are two kinds of files. Files to train and save algorithms for each meteorological variable and files associated to LLM in orther to forecast the whole METAR report. 
+This repository includes two types of notebooks: those for training and saving algorithms for individual meteorological variables, and those associated with LLMs (Language Learning Models) to forecast the entire METAR report.
 
-In first case:  
-The models are trained using Jupyter notebooks located in the respective airport directories (e.g., LEST/notebooks/). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models. The files are named using the format meteorological_variable_code_ICAO_code. Sometimes, the files also include a forecast range, such as d0, d1, etc., indicating the scope of the algorithm trained (e.g., d0 for forecast from H00 to H24, d1 for forecasts one day ahead, from H24 to H48).
+#### Meteorological Variable Models
 
-Variable code list
+The models for individual meteorological variables are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models. The files follow the naming convention `meteorological_variable_code_ICAO_code`. Occasionally, filenames include a forecast range, such as `d0`, `d1`, etc., indicating the scope of the algorithm trained (e.g., `d0` for forecasts from H00 to H24, `d1` for forecasts from H24 to H48).
+
+**Variable Code List:**
 
 | Variable Code | Meaning                                  |
 | ------------- | ---------------------------------------- |
@@ -58,20 +59,31 @@ Variable code list
 | **llmtempd**  | Dew point temperature (used in LLM)      |
 | **pres**      | QNH (Atmospheric pressure at sea level)  |
 
-To train a model:
+**To train a model:**
 
 1. Navigate to the notebook directory for the desired airport (e.g., `LEST/notebooks/`).
 2. Open the desired notebook in Jupyter Notebook or Jupyter Lab.
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
-in the second case:   
+#### LLM-Based METAR Forecasting
 
-The files are:
+The second type of notebooks are related to using LLMs to forecast entire METAR reports. These notebooks follow a structured process:
 
-1. ICAO-codefusion_ml.ipynb: create an array of strings (output file name:ICAO-codefusionml.csv). First words of the string are meteorological variables forecasted by algotithms. Last words are the actual METAR report.
-2. ICAO-codetrainml.ipynb: from input file ICAO-codefusionml.csv
-    1. Train keras model. Output file name ICAO-code/algorithms/LECOml.keras
-    2. Create a test file. Output file name ICAO-code/notebooks/ICAO-codetexts_testml.csv   
+1. **`ICAO-codefusion_ml.ipynb`:**
+   - This notebook creates an array of strings with meteorological variables forecasted by algorithms followed by the actual METAR report.
+   - **Output file:** `ICAO-codefusionml.csv`.
+
+2. **`ICAO-codetrainml.ipynb`:**
+   - Trains a Keras model using the data from `ICAO-codefusionml.csv`.
+   - **Outputs:**
+     1. Trained Keras model saved as `ICAO-code/algorithms/ICAO-code_ml.keras`.
+     2. Test data file saved as `ICAO-code/notebooks/ICAO-codetexts_testml.csv`.
+     3. JSON tokenizer file containing all words from the training data, saved as `ICAO-code/algorithms/ICAO-code_tokenizerml.json`.
+
+3. **`ICAO-codemlcheck.ipynb`:**
+   - Tests the trained Keras model using the files `ICAO-codetexts_testml.csv` and `ICAO-code_tokenizerml.json`.
+   - **Output file:** `ICAO-code_resultml.csv`.
+
 
 
 
