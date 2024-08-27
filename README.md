@@ -66,7 +66,7 @@ To train a model:
 
 in the second case:   
 The files are:
-1.ICAO-codefusion_ml.ipynb: create an array of strings. First words of the string are meteorological variables forecasted by algotithms. Last words are the actual METAR report 
+1.ICAO-codefusion_ml.ipynb: create an array of strings (output file name:<ICAO-code>fusionml.csv). First words of the string are meteorological variables forecasted by algotithms. Last words are the actual METAR report. 
 
 
 ### Dependencies
