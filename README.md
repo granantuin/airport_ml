@@ -65,8 +65,14 @@ To train a model:
 3. Follow the steps in the notebook to preprocess the data, train the model, and save the trained model to the `algorithms/` directory.
 
 in the second case:   
+
 The files are:
-1.ICAO-codefusion_ml.ipynb: create an array of strings (output file name:<ICAO-code>fusionml.csv). First words of the string are meteorological variables forecasted by algotithms. Last words are the actual METAR report. 
+
+1. ICAO-codefusion_ml.ipynb: create an array of strings (output file name:ICAO-codefusionml.csv). First words of the string are meteorological variables forecasted by algotithms. Last words are the actual METAR report.
+2. ICAO-codetrainml.ipynb: from input file ICAO-codefusionml.csv
+    1. Train keras model. Output file name ICAO-code/algorithms/LECOml.keras
+    2. Create a test file. Output file name ICAO-code/notebooks/ICAO-codetexts_testml.csv   
+
 
 
 ### Dependencies
