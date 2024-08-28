@@ -81,8 +81,8 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
      3. JSON tokenizer file containing all words from the training data, saved as `<ICAO-code>/algorithms/<ICAO-code>_tokenizerml.json`.
 
 3. **`<ICAO-code>mlcheck.ipynb`:**
-   - Tests the trained Keras model using the files `ICAO-codetexts_testml.csv` and `ICAO-code_tokenizerml.json`.
-   - **Output file:** `ICAO-code_resultml.csv`.
+   - Tests the trained Keras model using the files `<ICAO-code>texts_testml.csv` and `<ICAO-code>_tokenizerml.json`.
+   - **Output file:** `<ICAO-code>_resultml.csv`.
 
 ### Algorithms files
 
