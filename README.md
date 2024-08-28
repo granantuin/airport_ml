@@ -40,7 +40,7 @@ This repository includes two types of notebooks: those for training and saving a
 
 #### Meteorological Variable Models
 
-The models for individual meteorological variables are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models. The files follow the naming convention `meteorological_variable_code_ICAO_code`. Occasionally, filenames include a forecast range, such as `d0`, `d1`, etc., indicating the scope of the algorithm trained (e.g., `d0` for forecasts from H00 to H24, `d1` for forecasts from H24 to H48).
+The models for individual meteorological variables are trained using Jupyter notebooks located in the respective airport directories (e.g., `LEST/notebooks/`). Each notebook is specific to an airport and contains the steps for training and evaluating machine learning models. The files follow the naming convention `variable_code_<ICAO_code>_d<x>`. Occasionally, filenames include a forecast range, such as `d0`, `d1`, etc., indicating the scope of the algorithm trained (e.g., `d0` for forecasts from H00 to H24, `d1` for forecasts from H24 to H48).
 
 **Variable Code List:**
 
@@ -87,8 +87,10 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
 ### Algorithms files
 
 1. **`<ICAO-code>coor.csv:`** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. Input file to get the forecast of the nearest points to the airport.
-2. 
-3. 
+2. **`<ICAO-code>_ml.keras:`** Trained keras model.
+3. **`<ICAO-code>_tokenizerml.json:`** json file with the tokens/words of METAR report and forecasted meteorological variables.
+4.  **`<ICAO-code>_mlscore.csv:`** csv file with scores of machine learning models and LLM scores.
+5.  **`variable_code_<ICAO_code>_d<x>.al:`** Pickle file. contains a dictionary with nearest coordinates  to the airport, machine learnig pipeline and model score
 
 
 
