@@ -71,10 +71,10 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
 
 1. **`<ICAO-code>fusion_ml.ipynb`:**
    - This notebook creates an array of strings with meteorological variables forecasted by algorithms followed by the actual METAR report.
-   - **Output file:** `ICAO-codefusionml.csv`.
+   - **Output file:** `<ICAO-code>fusionml.csv`.
 
 2. **`<ICAO-code>trainml.ipynb`:**
-   - Trains a Keras model using the data from `ICAO-codefusionml.csv`.
+   - Trains a Keras model using the data from `<ICAO-code>fusionml.csv`.
    - **Outputs:**
      1. Trained Keras model saved as `<ICAO-code>/algorithms/<ICAO-code>_ml.keras`.
      2. Test data file saved as `<ICAO-code>/notebooks/<ICAO-code>texts_testml.csv`.
