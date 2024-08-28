@@ -12,7 +12,7 @@ This repository provides machine learning models and tools designed to predict m
 ├── help_functions.py         # Helper functions used across different scripts
 ├── mlmetar_forecast.py       # Script for METAR forecasting leveraging large language models (LLMs)
 ├── requirements.txt          # Python packages and dependencies required
-├── ICAO/                     # Files and models related to ICAO code airport            
+├── ICAO-code/                # Files and models related to ICAO code airport            
 │   └── input_files/          # Input data files for training models for ICAO code airport
 │   └── notebooks/            # Jupyter notebooks for training and testing models for ICAO code airport
     └── algorithms/           # Pre-trained model files (.al) for ICAO code airport 
@@ -85,8 +85,6 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
    - **Output file:** `ICAO-code_resultml.csv`.
 
 
-
-
 ### Dependencies
 
 The required Python packages and dependencies are listed in the `requirements.txt` file. To install them, run:
@@ -97,4 +95,8 @@ pip install -r requirements.txt
 
 ### Deploying the Model
 
-1. To deploy the model to predict meteorological variables as reported in METARs with algorithms based on the scikit-learn library and start the Streamlit app, run with the following [link](https://airport-ml.streamlit.app/)
+1. To deploy the model that predicts meteorological variables as reported in METARs using algorithms based on the scikit-learn library, visit the following [Streamlit app](https://airport-ml.streamlit.app/).
+2. To deploy the LLM model that forecasts the entire METAR report, visit this [Streamlit app](https://llmmetarforecast-ml.streamlit.app/).
+
+
+
