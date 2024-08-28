@@ -80,13 +80,13 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
      2. Test data file saved as `ICAO-code/notebooks/ICAO-codetexts_testml.csv`.
      3. JSON tokenizer file containing all words from the training data, saved as `ICAO-code/algorithms/ICAO-code_tokenizerml.json`.
 
-3. **`ICAO-codemlcheck.ipynb`:**
+3. **`<ICAO-code>mlcheck.ipynb`:**
    - Tests the trained Keras model using the files `ICAO-codetexts_testml.csv` and `ICAO-code_tokenizerml.json`.
    - **Output file:** `ICAO-code_resultml.csv`.
 
 ### Algorithms files
 
-1. **ICAO-codecoor.csv:** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. Input file to get the forecast of the nearest points.
+1. **ICAO-codecoor.csv:** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. Input file to get the forecast of the nearest points to the airport.
 2. 
 3. 
 
