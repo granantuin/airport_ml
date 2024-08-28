@@ -84,6 +84,13 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
    - Tests the trained Keras model using the files `ICAO-codetexts_testml.csv` and `ICAO-code_tokenizerml.json`.
    - **Output file:** `ICAO-code_resultml.csv`.
 
+### Algorithms files
+
+1. **ICAO-codecoor.csv:** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. Input file to get the forecast of the nearest points.
+2. 
+3. 
+
+
 
 ### Dependencies
 
