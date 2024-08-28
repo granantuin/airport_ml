@@ -22,9 +22,9 @@ This repository provides machine learning models and tools designed to predict m
 
 ### Input Files
 
-1. **get_metar_ICAO-code.ipynb**: Jupyter Notebook used to retrieve METAR reports from the Iowa State University database for a specified airport, identified by its ICAO code (e.g., LEST, LECO).
+1. **`get_metar_<ICAO-code>.ipynb`**: Jupyter Notebook used to retrieve METAR reports from the Iowa State University database for a specified airport, identified by its ICAO code (e.g., LEST, LECO).
 
-2. ICAO-codeY2018Y2022.csv: A CSV file containing meteorological variables observed in METAR reports for the specified ICAO code, covering the years 2018 to 2022. This file is generated as an output from the get_metar_<ICAO-code>.ipynb notebook.
+2. `<ICAO-code>Y2018Y2022.csv:` A CSV file containing meteorological variables observed in METAR reports for the specified ICAO code, covering the years 2018 to 2022. This file is generated as an output from the `get_metar_<ICAO-code>`.ipynb notebook.
 
 3. **get_wrf_4k.ipynb**: Jupyter Notebook designed to retrieve historical meteorological data from WRF (Weather Research and Forecasting) models provided by MeteoGalicia. This data is used for model training and analysis.
 
@@ -69,11 +69,11 @@ The models for individual meteorological variables are trained using Jupyter not
 
 The second type of notebooks are related to using LLMs to forecast entire METAR reports. These notebooks follow a structured process:
 
-1. **`ICAO-codefusion_ml.ipynb`:**
+1. **`<ICAO-code>fusion_ml.ipynb`:**
    - This notebook creates an array of strings with meteorological variables forecasted by algorithms followed by the actual METAR report.
    - **Output file:** `ICAO-codefusionml.csv`.
 
-2. **`ICAO-codetrainml.ipynb`:**
+2. **`<ICAO-code>trainml.ipynb`:**
    - Trains a Keras model using the data from `ICAO-codefusionml.csv`.
    - **Outputs:**
      1. Trained Keras model saved as `ICAO-code/algorithms/ICAO-code_ml.keras`.
