@@ -434,9 +434,9 @@ for ind in range(2, len(global_r)):
             st.write("Time:", global_r.iloc[ind]["metar_o"].split()[1][2:].upper())
 
     st.write("Real METAR:    ",global_r.iloc[ind]["metar_o"])
-    st.write("METAR forecast:",global_r.iloc[ind]["y_pred"])
+    st.write("LLM METAR forecast:",global_r.iloc[ind]["y_pred"])
     if meteorologic_model:
-     st.write("Meteorological model:",global_r.iloc[ind]["all"])
+     st.write("Meteorological model and Machine learning forecast :",global_r.iloc[ind]["all"])
     st.write("*************")
 
 score_df=pd.read_csv(algo_dir+oaci+"mlscore.csv").set_index("Unnamed: 0")
