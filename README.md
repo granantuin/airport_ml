@@ -84,14 +84,14 @@ The second type of notebooks are related to using LLMs to forecast entire METAR 
    - Tests the trained Keras model using the files `<ICAO-code>texts_testml.csv` and `<ICAO-code>_tokenizerml.json`.
    - **Output file:** `<ICAO-code>_resultml.csv`.
 
-### Algorithms files
 
-1. **`<ICAO-code>coor.csv:`** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. Input file to get the forecast of the nearest points to the airport.
-2. **`<ICAO-code>_ml.keras:`** Trained keras model.
-3. **`<ICAO-code>_tokenizerml.json:`** json file with the tokens/words of METAR report and forecasted meteorological variables.
-4.  **`<ICAO-code>_mlscore.csv:`** csv file with scores of machine learning models and LLM scores.
-5.  **`variable_code_<ICAO_code>_d<x>.al:`** Pickle file. contains a dictionary with nearest coordinates  to the airport, machine learnig pipeline and model score
+### Algorithm Files
 
+1. **`<ICAO-code>coor.csv:`** A CSV file listing the coordinates of the nearest WRF model grid points to a given airport. This is the input file used to obtain the forecast for the points closest to the airport.
+2. **`<ICAO-code>_ml.keras:`** The trained Keras model file.
+3. **`<ICAO-code>_tokenizerml.json:`** A JSON file containing the tokens/words from METAR reports and the forecasted meteorological variables.
+4. **`<ICAO-code>_mlscore.csv:`** A CSV file containing the performance scores of the machine learning models and the LLM.
+5. **`variable_code_<ICAO-code>_d<x>.al:`** A Pickle file containing a dictionary with the nearest coordinates to the airport, the machine learning pipeline, and the model score. The `variable_code` corresponds to the codes from the table above, and `<x>` indicates the forecast range (e.g., `d0`, `d1`).
 
 
 ### Dependencies
