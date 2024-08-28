@@ -95,15 +95,6 @@ The required Python packages and dependencies are listed in the `requirements.tx
 pip install -r requirements.txt
 ```
 
-## Contributing
+### Deploying the Model
 
-Contributions to the project are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and push the branch to your fork.
-4. Open a Pull Request with a detailed description of your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+1. To deploy the model to predict meteorological variables as reported in METARs with algorithms based on the scikit-learn library and start the Streamlit app, run with the following [link](https://airport-ml.streamlit.app/)
